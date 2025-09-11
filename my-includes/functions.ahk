@@ -67,26 +67,54 @@ escapeShutdown() {
 }
 
 ; toUpper or toLower with CapsLock long press
-capsToUpperLower() {
-    if ( isKeyPressedForDuration("CapsLock", MS_300) ) {
+capsToUpperLower() {    
+
+    if (WinGetClass("A") != "TscShellContainerClass") {
         
-        oldClipboard := ClipboardAll()       ; Save the current CLIPBOARD CONtents to be restored later
-        A_Clipboard := ""                  ; Start off empty to allow ClipWait to detect when the text has arrived.
-        Send combo.COPY                          ; Copy the selected text to the clipboard
-        ClipWait                       ; Wait for the clipboard to contain text
-        capsState := GetKeyState("CapsLock", "T")   ; gets if capsState is ON or OFF
+        if ( isKeyPressedForDuration("CapsLock", MS_300) ) {
 
-        if (capsState)
-            A_Clipboard := StrLower(A_Clipboard)
+            oldClipboard := ClipboardAll()       ; Save the current CLIPBOARD CONtents to be restored later
+            A_Clipboard := ""                  ; Start off empty to allow ClipWait to detect when the text has arrived.
+            Send combo.COPY                          ; Copy the selected text to the clipboard
+            ClipWait                       ; Wait for the clipboard to contain text
+            capsState := GetKeyState("CapsLock", "T")   ; gets if capsState is ON or OFF
+
+            if (capsState)
+                A_Clipboard := StrLower(A_Clipboard)
+            else
+                A_Clipboard := StrUpper(A_Clipboard)
+
+            Send A_Clipboard ; Replace the selected text with the modified clipboard content
+            A_Clipboard := oldClipboard   ; Restore the old clipboard contents
+            oldClipboard := ""             ; free memory
+
+            Sleep(MS_100)
+        }
         else
-            A_Clipboard := StrUpper(A_Clipboard)
-
-        Send A_Clipboard ; Replace the selected text with the modified clipboard content
-        A_Clipboard := oldClipboard   ; Restore the old clipboard contents
-        oldClipboard := ""             ; free memory
-
-        Sleep(MS_100)
+            SetCapsLockState !GetKeyState("CapsLock", "T")  ; this is the normal expected behaviour of the key
     }
-    else
-        SetCapsLockState !GetKeyState("CapsLock", "T")  ; this is the normal expected behaviour of the key
 }
+
+
+/*
+    MonitorCount := MonitorGetCount()
+    MonitorPrimary := MonitorGetPrimary()
+    MsgBox "Monitor Count:`t" MonitorCount "`nPrimary Monitor:`t" MonitorPrimary
+    Loop MonitorCount
+    {
+        MonitorGet A_Index, &L, &T, &R, &B
+        MonitorGetWorkArea A_Index, &WL, &WT, &WR, &WB
+        MsgBox
+        (
+            "Monitor:`t#" A_Index "
+            Name:`t" MonitorGetName(A_Index) "
+            Left:`t" L " (" WL " work)
+            Top:`t" T " (" WT " work)
+            Right:`t" R " (" WR " work)
+            Bottom:`t" B " (" WB " work)"
+        )
+
+        DllCall("SetCursorPos", "int", R-(R-L)/2, "int", B-(B-T)/2)
+        
+    }
+*/

@@ -1,8 +1,8 @@
 ; CONSTANTS
 
-; BROWSER_PROFILE1 := 'msedge.exe --profile-directory="Profile 1" --new-window'
-BROWSER_PROFILE1 := 'msedge.exe --profile-directory="Profile 1"'
-BROWSER_DEFAULT := "msedge.exe --profile-directory=Default"
+BROWSER_PROFILE1_NEW_WINDOW := 'msedge.exe --profile-directory="Profile 1" --new-window'
+BROWSER_PROFILE1 := 'msedge.exe --profile-directory="Profile 1" --new-tab'
+BROWSER_DEFAULT := "msedge.exe --profile-directory=Default --new-tab"
 OUTLOOK := "Outlook.exe"
 KEEPASSXC := "C:\Program Files\KeePassXC\KeePassXC.exe"
 

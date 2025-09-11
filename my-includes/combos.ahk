@@ -33,8 +33,10 @@ class Combo {
 
     ; Clipboard
     static COPY := "{CtrlDown}c{CtrlUp}"
-    static PASTE := "{CtrlDown}v{CtrlUp}"
     static CUT := "{CtrlDown}x{CtrlUp}"
+
+    static PASTE := "{CtrlDown}v{CtrlUp}"
+    ; static PASTE_SPECIAL := "{Shift down}^v{Shift up}" ; not working!
 
     ; Windows Capture
     static SCREEN_CAPTURE_TEXT := "{ShiftDown}#t{ShiftUp}"

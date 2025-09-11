@@ -13,6 +13,7 @@ class SnowInput {
 		SNOW_LINK_INC := SNOW_URL . '/nav_to.do?uri=incident.do?sys_id='
 		SNOW_LINK_KB := SNOW_URL . '/kb_view.do?sysparm_article='
 		SNOW_LINK_PRB := SNOW_URL . '/nav_to.do?uri=problem.do?sys_id='
+		SNOW_LINK_TASK := SNOW_URL . '/now/nav/ui/classic/params/target/sc_task.do?sys_id='
 		SNOW_LINK_SEARCH := SNOW_URL . '/textsearch.do?sysparm_search='
 
 		WINDOW_TITLE := "Service Now"
@@ -22,16 +23,18 @@ class SnowInput {
 			INC - Incident Number
 			PRB - Problem Number
 			KB  - Knowledge Base Number
-			/    - general text search
+			TASK - Task Number
+			'sn ' - general text search
 		)"
 
 		; actions/options
 		KB := "KB"
 		INC := "INC"
 		PRB := "PRB"
-		SEARCH := "/"
+		TASK := "TASK"
+		SEARCH := "sn "
 
-		item := InputBox(INPUT_LABEL, WINDOW_TITLE, "w240 h180").value
+		item := InputBox(INPUT_LABEL, WINDOW_TITLE, "w600 h280").value
 
 		; evaluates the input and runs the command
 		If InStr( SubStr(item, 1, 3), INC ) 
@@ -40,11 +43,11 @@ class SnowInput {
 			Run BROWSER_PROFILE1 . " " . SNOW_LINK_PRB . item
 		If InStr(SubStr(item, 1, 2), KB) 
 			Run BROWSER_PROFILE1 . " " . SNOW_LINK_KB . item
-		If InStr( SubStr(item, 1, 1), SEARCH ) 
-			Run BROWSER_PROFILE1 . " " . SNOW_LINK_SEARCH . UrlEncode(SubStr(item, 2))
-		If (item == "" )
+		If InStr(SubStr(item, 1, 4), TASK) 
+			Run BROWSER_PROFILE1 . " " . SNOW_LINK_TASK . item
+		If InStr( SubStr(item, 1, 3), SEARCH ) 
+			Run BROWSER_PROFILE1 . " " . SNOW_LINK_SEARCH . UrlEncode(SubStr(item, 3))
+		Else (item == "" )
 			return
-		Else 
-			myToolTip("No options available.", 2000)
 	}
 }

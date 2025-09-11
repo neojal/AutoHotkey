@@ -12,8 +12,6 @@ beepLow := () => SoundBeep(300, 50)
 beepHigh := () => SoundBeep(1000, 500)
 beepVeryHigh := () => SoundBeep(1500, 100)
 
-
-
 ; Creates a tool tip with the passed text that lasts msTime milliseconds
 myToolTip(text, msTime) {
     ToolTip text
